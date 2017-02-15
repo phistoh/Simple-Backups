@@ -35,7 +35,7 @@ function create_archive(infiles, outfile)
 	-- -mx9 specifies maximum compression
 	-- -sdel deletes files after including
 	-- -x!outfile-*.7z excludes all previously generated 7z files
-	os.execute('"7z.exe a ' .. infiles .. archive_file .. ' ' .. infiles .. '*" -mx9 -sdel -xr!' .. outfile .. '-*.7z')
+	os.execute('"7za.exe a ' .. infiles .. archive_file .. ' ' .. infiles .. '*" -mx9 -sdel -xr!' .. outfile .. '-*.7z')
 	
 	io.write('\n')
 end
@@ -75,8 +75,8 @@ end
 
 -- check if paths exist
 -- 7z.exe
-if file_exists('7z.exe') == false then
-	io.write('7z.exe not found.\n')
+if file_exists('7za.exe') == false then
+	io.write('7za.exe not found.\n')
 	return false
 end
 

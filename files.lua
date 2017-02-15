@@ -10,14 +10,10 @@ files["dummy"] = {
 	}
 }
 
-files["a"] = {
-	inpath = "D:\\Users\\Gobbert\\Desktop\\a",
-	outpath = "D:\\Users\\Gobbert\\Desktop\\b",
+files["reachwindeyrie"] = {
+	inpath = "G:\\Steam\\steamapps\\common\\Skyrim\\Data",
+	outpath = "E:\\Dropbox\\Skyrim\\reachwindeyrie",
 	filenames = {
-		"a.txt",
-		"b.txt",
-		"b.bmp",
-		"another_fi.le",
-		"minecreep.avi"
+		"phi_reachwindeyrie.esp"
 	}
 }
