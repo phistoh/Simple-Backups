@@ -22,9 +22,13 @@ files["dummy_name"] = {
 
 Then call the script with `.../lua.exe backup.lua dummy_name`.
 
+Another method is to set up the batch file. Include the location of `backup.lua` there. Then you can also call the script by using the batch file: `backup.bat dummy_name`
+
 ## File Description
 - **backup.lua** is the main script
 - **files.lua** contains the path to `7z.exe` and tables including paths of files to backup
+- **backup.bat** is a batch script which calls backup.lua
+- **7z.exe** is the 7-Zip executable
 
 ## Changes
 - **1.1**: Now includes 7z.exe
