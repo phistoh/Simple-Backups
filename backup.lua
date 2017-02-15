@@ -70,10 +70,10 @@ end
 
 -- check if paths exist
 -- 7z.exe
-	if file_exists(path_of_7z) == false then
-		io.write("7z.exe not found.\n")
-		return false
-	end
+if file_exists("7z.exe") == false then
+	io.write("7z.exe not found.\n")
+	return false
+end
 
 -- input
 if path_exists(inpath) == false then
@@ -120,7 +120,7 @@ input_string = string.sub(input_string, 2)
 
 -- create the archive (if there were files to compress)
 if file_count > 0 then
-	create_archive(path_of_7z, input_string, outpath .. arg[1])
+	create_archive("7z.exe ", input_string, outpath .. arg[1])
 end
 
 -- stop timer

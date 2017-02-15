@@ -1,8 +1,8 @@
 # Simple Backups
-A personal Lua script to backup files in the same folder. It uses `os.execute()` and requires an installation of [7-Zip](http://www.7-zip.org/).
+A personal Lua script to backup files in the same folder. It uses `os.execute()` to copy files and comes with the command line version of [7-Zip](http://www.7-zip.org/). 7-Zip is licensed under [GNU LGPL](http://www.gnu.org/).
 
 ## Usage
-Include the correct path to the 7-Zip executable (`7z.exe`) in `files.lua`. Include tables to describe the files to backup as follows:
+Include tables in `files.lua` to describe the files to backup as follows:
 
 ```lua
 files["dummy_name"] = {
@@ -27,6 +27,7 @@ Then call the script with `.../lua.exe backup.lua dummy_name`.
 - **files.lua** contains the path to `7z.exe` and tables including paths of files to backup
 
 ## Changes
+- **1.1**: Now includes 7z.exe
 - **1.0**: Initial release
 
 ## To-Do

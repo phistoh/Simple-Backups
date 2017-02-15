@@ -1,7 +1,6 @@
-path_of_7z = "C:/Program Files/7-Zip/7z.exe"
-
 files = {}
 
+-- use / to separate folders
 files["dummy"] = {
 	inpath = "d:/um/my/",
 	outpath = "d:/ile/path/",
