@@ -60,6 +60,14 @@ local table_of_files = files[arg[1]]
 local inpath = table_of_files["inpath"]
 local outpath = table_of_files["outpath"]
 
+-- Check if the paths end with forward-slashed. If not -> add them
+if string.sub(inpath, string.len(inpath)) ~= "/" then
+	inpath = inpath .. "/"
+end
+if string.sub(outpath, string.len(outpath)) ~= "/" then
+	outpath = outpath .. "/"
+end
+
 -- check if paths exist
 -- 7z.exe
 	if file_exists(path_of_7z) == false then
