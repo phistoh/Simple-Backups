@@ -26,12 +26,12 @@ Another method is to set up the batch file. Include the location of `backup.lua`
 
 ## File Description
 - **backup.lua** is the main script
-- **files.lua** contains the path to `7z.exe` and tables including paths of files to backup
+- **files.lua** contains tables including paths of files to backup
 - **backup.bat** is a batch script which calls backup.lua
-- **7z.exe** is the 7-Zip executable
+- **7za.exe**, **7za.dll** and **7zxa.dll** are the standalone files of 7-Zip
 
 ## Changes
-- **1.1**: Now includes 7z.exe
+- **1.1**: Now includes 7-Zip (licensed under [GNU LGPL](http://www.gnu.org/))
 - **1.0**: Initial release
 
 ## To-Do
