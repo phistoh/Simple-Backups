@@ -34,8 +34,9 @@ function create_archive(infiles, outfile)
 	-- extra quote around the whole command because Windows-CMD removes the first and last quotation mark
 	-- -mx9 specifies maximum compression
 	-- -sdel deletes files after including
-	-- -x!outfile-*.7z excludes all previously generated 7z files
-	os.execute('"7za.exe a ' .. infiles .. archive_file .. ' ' .. infiles .. '*" -mx9 -sdel -xr!' .. outfile .. '-*.7z')
+	-- -xr!outfile-*.7z excludes all previously generated 7z files
+	-- -x!_lastbackup.log exludes the logfile
+	os.execute('"7za.exe a ' .. infiles .. archive_file .. ' ' .. infiles .. '*" -mx9 -sdel -xr!' .. outfile .. '-*.7z -x!_lastbackup.log >nul')
 	
 	io.write('\n')
 end
@@ -110,12 +111,24 @@ file_count = 0
 
 -- iterate over table of inputfiles
 for k,current_file in pairs(table_of_files['filenames']) do
+	-- (re)initialize subdirs to take care of files in subdirectories
+	subdirs = ''
 	-- check if file exists
 	if file_exists(inpath .. current_file) == true then
-		--increase file_count and copy file
+		-- increase file_count and copy file
 		file_count = file_count + 1
+		
+		-- if the file is in a subdirectory, create the folder structure
+		if string.find(current_file,'\\') ~= nil then
+			-- reverse the string and find the first backslash -> its the last backslash in the original string (TODO: write extra method)
+			last_position = 1 + string.len(outpath..current_file) - string.find(string.reverse(outpath..current_file),'\\')
+			-- create a directory
+			os.execute('md "' .. string.sub(outpath..current_file,1,last_position) .. '" >nul 2>nul')
+			-- add subdirectory to outpath
+			subdirs = string.sub(outpath..current_file,string.len(outpath)+1,last_position)
+		end
 		-- >nul suppresses stdout ; 2>nul suppresses stderr
-		os.execute('copy "' .. inpath .. current_file .. '" "' .. outpath .. '" >nul 2>nul')
+		os.execute('copy "' .. inpath .. current_file .. '" "' .. outpath .. subdirs .. '" >nul 2>nul')
 		io.write(current_file .. ' copied.\n')
 	else
 		io.write(current_file .. ' not found. Will be skipped.\n')
@@ -129,6 +142,11 @@ input_string = string.sub(input_string, 2)
 if file_count > 0 then
 	create_archive(outpath, arg[1])
 end
+
+-- create logfile which contains time of last backup
+logfile = io.open(outpath.."//_lastbackup.log", "w")
+logfile:write(os.date("%Y-%m-%d %H-%M-%S"))
+logfile:close()
 
 -- stop timer
 local elapsedTime = os.difftime(os.time(), start)
