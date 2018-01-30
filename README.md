@@ -11,7 +11,8 @@ files["dummy_name"] = {
 	filenames = {
 		"dummy.d",
 		"dummy.txt",
-		"subfolder\\dummy.f"
+		"subfolder\\dummy.f",
+		"subfolder2\\"
 	}
 }
 ```
@@ -32,6 +33,7 @@ Another method is to set up the batch file. Include the location of `backup.lua`
 - **7za.exe**, **7za.dll** and **7zxa.dll** are the standalone files of 7-Zip
 
 ## Changes
+- **1.3**: Script is now able to copy whole subfolders instead of only specific files
 - **1.2**: Included handling of files in subfolders of `inpath`
 - **1.1**: Now includes 7-Zip (licensed under [GNU LGPL](http://www.gnu.org/))
 - **1.0**: Initial release

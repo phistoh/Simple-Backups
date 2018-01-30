@@ -15,15 +15,12 @@ files["test"] = {
 	inpath = "D:\\Users\\Gobbert\\Desktop\\a",
 	outpath = "D:\\Users\\Gobbert\\Desktop\\b",
 	filenames = {
-		"asdf.txt",
-		"asdf.bmp",
-		"asdf\\asdf2.txt",
-		"asdf\\asdf2.bmp",
-		"asdf\\asdf23\\asdf23.bmp",
-		"asdf - Kopie\\asdf2.txt",
-		"asdf - Kopie\\asdf2.bmp",
-		"asdf - Kopie\\asdf23\\asdf23.bmp",
+		"a.bmp",
+		"b\\b.txt",
+		"c\\",
+		"d\\"
 	}
+	
 }
 
 files["reachwindeyrie"] = {

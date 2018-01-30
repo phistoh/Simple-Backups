@@ -15,7 +15,7 @@ end
 -- checks if a given path exists
 function path_exists(path)
 	-- >nul suppresses stdout ; 2>nul suppresses stderr
-	if os.execute('cd "' .. path .. '" >nul 2>nul')  == nil then
+	if os.execute('cd "' .. path .. '" >nul 2>nul') == nil then
 		-- path doesn't exist
 		return false
 	else
@@ -111,27 +111,49 @@ file_count = 0
 
 -- iterate over table of inputfiles
 for k,current_file in pairs(table_of_files['filenames']) do
-	-- (re)initialize subdirs to take care of files in subdirectories
-	subdirs = ''
-	-- check if file exists
-	if file_exists(inpath .. current_file) == true then
-		-- increase file_count and copy file
-		file_count = file_count + 1
-		
-		-- if the file is in a subdirectory, create the folder structure
-		if string.find(current_file,'\\') ~= nil then
-			-- reverse the string and find the first backslash -> its the last backslash in the original string (TODO: write extra method)
-			last_position = 1 + string.len(outpath..current_file) - string.find(string.reverse(outpath..current_file),'\\')
-			-- create a directory
-			os.execute('md "' .. string.sub(outpath..current_file,1,last_position) .. '" >nul 2>nul')
-			-- add subdirectory to outpath
-			subdirs = string.sub(outpath..current_file,string.len(outpath)+1,last_position)
+	-- test if current_file is actually a folder
+	if string.sub(current_file,-1) == '\\' then
+		-- check if the folder exists
+		if path_exists(inpath..current_file) == true then
+			-- create the respective directory
+			os.execute('md "' .. outpath..current_file .. '" >nul 2>nul')
+			
+			-- copy all files in subfolder recursively (robocopy)
+			-- omit the trailing backslash
+			os.execute('robocopy "'..string.sub(inpath..current_file,1,-2)..'" "'..string.sub(outpath..current_file,1,-2)..'" /E >nul 2>nul')
+			
+			-- count files in copied folder to update file counter
+			for _f in io.popen('dir '.. string.sub(outpath..current_file,1,-2) ..' /b'):lines() do
+				file_count = file_count + 1
+			end
+			
+			io.write(string.gsub(current_file,'*','') .. ' copied.\n')
+		else
+			io.write(current_file .. ' not found. Will be skipped.\n')
 		end
-		-- >nul suppresses stdout ; 2>nul suppresses stderr
-		os.execute('copy "' .. inpath .. current_file .. '" "' .. outpath .. subdirs .. '" >nul 2>nul')
-		io.write(current_file .. ' copied.\n')
 	else
-		io.write(current_file .. ' not found. Will be skipped.\n')
+		-- (re)initialize subdirs to take care of files in subdirectories
+		subdirs = ''
+		-- check if file exists
+		if file_exists(inpath .. current_file) == true then
+			-- increase file_count and copy file
+			file_count = file_count + 1
+			
+			-- if the file is in a subdirectory, create the folder structure
+			if string.find(current_file,'\\') ~= nil then
+				-- reverse the string and find the first backslash -> its the last backslash in the original string (TODO: write extra method)
+				last_position = 1 + string.len(outpath..current_file) - string.find(string.reverse(outpath..current_file),'\\')
+				-- create a directory
+				os.execute('md "' .. string.sub(outpath..current_file,1,last_position) .. '" >nul 2>nul')
+				-- add subdirectory to outpath
+				subdirs = string.sub(outpath..current_file,string.len(outpath)+1,last_position)
+			end
+			-- >nul suppresses stdout ; 2>nul suppresses stderr
+			os.execute('copy "' .. inpath .. current_file .. '" "' .. outpath .. subdirs .. '" >nul 2>nul')
+			io.write(current_file .. ' copied.\n')
+		else
+			io.write(current_file .. ' not found. Will be skipped.\n')
+		end
 	end
 end
 
